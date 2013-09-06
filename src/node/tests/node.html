@@ -1943,6 +1943,17 @@ YUI({base: '../../../build/', filter: 'raw'}).use('selector-css3', 'node-depreca
         'should not cache document fragment': function() {
             var node = Y.Node.create('<div>foo</div><div>bar</div>');
             Assert.isUndefined(Y.Node._instances[node._yuid]);
+        },
+
+        'should return false if node is removed': function () {
+            var myNode = Y.one('*');
+            // node should exist first and be in doc
+            Assert.isTrue(myNode.inDoc());
+
+            myNode._node = null;
+
+            // node is not bound
+            Assert.isFalse(myNode.inDoc());
         }
     })); 
 
