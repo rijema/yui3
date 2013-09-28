@@ -1,6 +1,13 @@
 Calendar Change History
 =======================
 
+@VERSION@
+------
+
+* Fix a issue with cloudn't select a date when passing minimumDate. ([#1030][])
+
+[#1030]: https://github.com/yui/yui3/issues/1030
+
 3.11.0
 ------
 
