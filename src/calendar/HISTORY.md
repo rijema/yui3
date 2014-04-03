@@ -3,9 +3,10 @@ Calendar Change History
 
 @VERSION@
 ------
-
+* Fix #1731: Y.Calendar.selectDates fails when passed the maximumDate with minutes/seconds ([#1731][])
 * Fix a issue with cloudn't select a date when passing minimumDate. ([#1030][])
 
+[#1731]: https://github.com/yui/yui3/issues/1731
 [#1030]: https://github.com/yui/yui3/issues/1030
 
 3.11.0
