@@ -329,9 +329,9 @@ var WIDGET       = 'widget',
                     maskNode.show();
                     Y.later(1, this, '_attachUIHandlesModal');
                     this._focus();
+
+                    this._blockIFrameFocus();
                 }
-
-
             } else {
 
                 index = Y.Array.indexOf(stack, this);
@@ -363,7 +363,38 @@ var WIDGET       = 'widget',
 
                 }
 
+                this._unblockIFrameFocus();
             }
+        },
+
+        /**
+         * Blocks iframes on the page from getting focused by setting their
+         * tabIndex attribute to -1. The previous value of tabIndex is saved
+         * so it can be restored later.
+         *
+         * @method _blockIFrameFocus
+         * @protected
+         */
+        _blockIFrameFocus: function() {
+            Y.all('iframe').each(function() {
+                this.setData('previous-tab-index', this.get('tabIndex'));
+                this.set('tabIndex', -1);
+            });
+        },
+
+        /**
+         * Unblocks focus for the iframes on the page by restoring their original
+         * tabIndex attributes (see the _blockIFrameFocus method).
+         *
+         * @method _unblockIFrameFocus
+         * @protected
+         */
+        _unblockIFrameFocus: function() {
+            Y.all('iframe').each(function() {
+                if (this.getData('previous-tab-index') !== undefined) {
+                    this.set('tabIndex', this.getData('previous-tab-index'));
+                }
+            });
         },
 
         /**
