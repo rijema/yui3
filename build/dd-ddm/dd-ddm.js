@@ -100,7 +100,7 @@ YUI.add('dd-ddm', function (Y, NAME) {
                 top: '0',
                 left: '0',
                 position: 'absolute',
-                zIndex: '9999',
+                zIndex: '99999',
                 overflow: 'hidden',
                 backgroundColor: 'red',
                 display: 'none',
