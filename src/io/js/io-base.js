@@ -395,12 +395,13 @@ IO.prototype = {
     * @return {String}
     */
     _concat: function(uri, data) {
-        var fragment;
+        var fragment = '',
+            split;
 
-        if (!(uri.indexOf('#') === -1)) {
-            var split = uri.split('#');
+        if (uri.indexOf('#') !== -1) {
+            split = uri.split('#');
 
-            var uri = split[0];
+            uri = split[0];
             fragment = '#' + split[1];
         }
 
