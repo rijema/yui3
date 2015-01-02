@@ -397,8 +397,19 @@ IO.prototype = {
     * @return {String}
     */
     _concat: function(uri, data) {
+        var fragment = '',
+            split;
+
+        if (uri.indexOf('#') !== -1) {
+            split = uri.split('#');
+
+            uri = split[0];
+            fragment = '#' + split[1];
+        }
+
         uri += (uri.indexOf('?') === -1 ? '?' : '&') + data;
-        return uri;
+
+        return uri + fragment;
     },
 
    /**
