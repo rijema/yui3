@@ -111,24 +111,6 @@ ButtonCore.prototype = {
     },
 
     /**
-     * @method show
-     * @description Sets the button's `visible` attribute to `true`
-     * @public
-     */
-    show: function() {
-        this.set('visible', true);
-    },
-
-    /**
-     * @method hide
-     * @description Sets the button's `visible` attribute to `false`
-     * @public
-     */
-    hide: function() {
-        this.set('visible', false);
-    },
-
-    /**
      * @method getNode
      * @description Gets the button's host node
      * @return {Node} The host node instance
@@ -143,6 +125,24 @@ ButtonCore.prototype = {
         }
 
         return this._host;
+    },
+
+    /**
+     * @method hide
+     * @description Sets the button's `visible` attribute to `false`
+     * @public
+     */
+    hide: function() {
+        this.set('visible', false);
+    },
+
+    /**
+     * @method show
+     * @description Sets the button's `visible` attribute to `true`
+     * @public
+     */
+    show: function() {
+        this.set('visible', true);
     },
 
     /**
@@ -240,7 +240,7 @@ ButtonCore.prototype = {
     /**
      * @method _setVisible
      * @description Setter for the 'visible' ATTR
-     * @param value {boolean} 
+     * @param value {boolean}
      * @private
      */
     _setVisible: function(value) {

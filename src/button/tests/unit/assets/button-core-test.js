@@ -46,6 +46,31 @@ YUI.add('button-core-test', function (Y) {
             Assert.isFalse(node.hasClass('yui3-button-disabled'));
         },
 
+        'Hiding a button should set the `visible` attribute to `false`': function () {
+            var button = this.button;
+            var node = button.getNode();
+
+            Assert.isTrue(button.get('visible'));
+            Assert.isFalse(node.hasClass('yui3-button-hidden'));
+
+            button.set('visible', false);
+            Assert.isFalse(button.get('visible'));
+            Assert.isTrue(node.hasClass('yui3-button-hidden'));
+        },
+
+        'Showing a button should set the `visible` attribute to `true`': function () {
+            var button = this.button;
+            var node = button.getNode();
+
+            button.hide();
+            Assert.isFalse(button.get('visible'));
+            Assert.isTrue(node.hasClass('yui3-button-hidden'));
+
+            button.show();
+            Assert.isTrue(button.get('visible'));
+            Assert.isFalse(node.hasClass('yui3-button-hidden'));
+        },
+
         'Changing the label should change the `label` attribute of a button': function () {
             var button = this.button;
             var defaultText = Y.ButtonCore.ATTRS.label.value;
