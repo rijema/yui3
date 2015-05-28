@@ -82,6 +82,7 @@
                 this._shimState = Y.DD.DDM._noShim;
                 Y.DD.DDM._noShim = true;
                 this.set('currentNode', tar);
+                dd._unprep();
                 dd.set('node', tar);
                 if (dd.proxy) {
                     dd.set('dragNode', Y.DD.DDM._proxy);
