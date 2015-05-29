@@ -64,6 +64,17 @@
         #del li.disabled {
             opacity: .5;
         }
+        #nestedChild {
+            height: 100px;
+            width: 100px;
+        }
+        #nestedParent {
+            height: 200px;
+            width: 200px;
+        }
+        .nested {
+            border: 1px solid #000;
+        }
     </style>
 
 </head>
@@ -82,6 +93,11 @@
             <li class="disabled">item</li>
             <li>item</li>
         </ul>
+    </div>
+    <div id="nested">
+        <div class="nested" id="nestedParent">
+            <div class="nested" id="nestedChild"></div>
+        </div>
     </div>
 <script type="text/javascript" src="dd.js"></script>
 </body>

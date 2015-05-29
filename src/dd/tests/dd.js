@@ -26,8 +26,8 @@ YUI({
         augment: true,
         useConsole: true
     }
-}).use('event-synthetic', 'event-gestures', 'dd', 'console', 'test', 'substitute', 'selector-css3', function(Y) {
-            
+}).use('event-synthetic', 'event-gestures', 'dd', 'console', 'node-event-simulate', 'test', 'substitute', 'selector-css3', function(Y) {
+
             if (Y.UA.ie) {
                 if (Y.UA.ie >= 9) {
                     dropCount = 30;
@@ -43,8 +43,8 @@ YUI({
         var myConsole = new Y.Console({
             height: Y.one(window).get('winHeight') + 'px',
             width: '375px'
-        }).render();    
-            
+        }).render();
+
         var _count = {},
         _resetCount = function() {
             Y.each(_count, function(v, k) {
@@ -55,7 +55,7 @@ YUI({
             _resetCount();
             Y.DD.DDM._noShim = true;
             node._dragThreshMet = true;
-            node.set('activeHandle', node.get('node'));                    
+            node.set('activeHandle', node.get('node'));
             node._setStartPosition(node.get('node').getXY());
             Y.DD.DDM.activeDrag = node;
             Y.DD.DDM._start();
@@ -101,7 +101,7 @@ YUI({
         name: 'DD Test',
         setUp : function() {
         },
-        
+
         tearDown : function() {
         },
         test_shim: function() {
@@ -219,7 +219,7 @@ YUI({
         /* This test is iffey on Chrome/IE9 and sometimes on FF. Removing until I find a better solution.
         test_proxy_move: function() {
             _fakeMove(proxy, moveCount);
-            
+
             Y.Assert.areSame(moveCount, _count['drag:drag'], 'drag:drag should fire ' + moveCount + ' times');
             Y.Assert.areSame(1, _count['drag:drophit'], 'drag:drophit should fire 1 time');
             Y.Assert.areSame(1, _count['drag:end'], 'drag:end should fire 1 time');
@@ -242,7 +242,7 @@ YUI({
             Y.Assert.isFalse(drop.get('node').hasClass('yui3-dd-drop'), 'Drop: Drop Instance NO ClassName');
             Y.Assert.isTrue(drop.get('destroyed'), 'Drop: Destroyed Attribute');
         },
-        
+
         test_constrain_node_setup: function() {
             Y.one('#drag').setStyles({ top: '10px', left: '950px' });
             dd = new Y.DD.Drag({
@@ -264,7 +264,7 @@ YUI({
             Y.Assert.isTrue(inRegion_after, 'Drag Node is NOT in the region of #wrap');
             dd.destroy();
         },
-        
+
         test_constrain_view_setup: function() {
             Y.one('#drag').setStyles({ top: '-150px', left: '200px' });
             dd = new Y.DD.Drag({
@@ -371,11 +371,33 @@ YUI({
                 currentTarget: Y.one('#del ul li:nth-child(6)')
             });
             Y.Assert.isFalse(mDown, 'Delegate mouseDown fired on a disabled item');
+        },
+        'test: drag delegation on nested elements': function() {
+            var nested = new Y.DD.Delegate({
+                container: '#nested',
+                nodes: '.nested',
+                target: true,
+                handles: ['.header']
+            });
+
+            var nestedParent = Y.one('#nestedParent');
+            var nestedChild = Y.one('#nestedChild');
+
+            nestedChild.simulate('mousedown');
+            nestedChild.simulate('mouseup');
+
+            var listeners = Y.Event.getListeners(nestedParent, 'mousedown');
+
+            Y.Assert.isNull(listeners, 'mousedown event handler are not deleted');
+
+            listeners = Y.Event.getListeners(nestedChild, 'mousedown');
+
+            Y.Assert.isNull(listeners, 'mousedown event handler are not deleted');
         }
     };
-    
+
     var suite = new Y.Test.Suite("DD");
-    
+
     suite.add(new Y.Test.Case(template));
     Y.Test.Runner.add(suite);
     Y.Test.Runner.run();
