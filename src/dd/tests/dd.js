@@ -393,6 +393,33 @@ YUI({
             listeners = Y.Event.getListeners(nestedChild, 'mousedown');
 
             Y.Assert.isNull(listeners, 'mousedown event handler are not deleted');
+        },
+        'test: Drag delegate element is removed': function() {
+            var del = new Y.DD.Delegate({
+                    container: '#del',
+                    nodes: 'li',
+                    invalid: '.disabled',
+                    target: true
+                }),
+                dragStartFired = false;
+
+            del.on('drag:start', function() {
+                dragStartFired = true;
+            });
+
+            var itemA = Y.one('#del li');
+            var itemB = itemA.next('li');
+
+            itemA.simulate('mousedown');
+            itemA.simulate('mouseup');
+
+            itemA.remove(true);
+
+            itemB.simulate('mousedown');
+
+            this.wait(function() {
+                Y.Assert.isTrue(dragStartFired, "The drag:start event was not fired.");
+            }, 1000);
         }
     };
 
