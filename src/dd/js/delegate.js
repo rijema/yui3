@@ -3,7 +3,7 @@
      * Provides the ability to drag multiple nodes under a container element using only one Y.DD.Drag instance as a delegate.
      * @module dd
      * @submodule dd-delegate
-     */     
+     */
     /**
      * Provides the ability to drag multiple nodes under a container element using only one Y.DD.Drag instance as a delegate.
      * @class Delegate
@@ -31,13 +31,13 @@
         /**
         * @property dd
         * @description A reference to the temporary dd instance used under the hood.
-        */    
+        */
         dd: null,
         /**
         * @property _shimState
         * @private
         * @description The state of the Y.DD.DDM._noShim property to it can be reset.
-        */    
+        */
         _shimState: null,
         /**
         * @private
@@ -76,13 +76,16 @@
         */
         _delMouseDown: function(e) {
             var tar = e.currentTarget,
-                dd = this.dd;
-            
+                dd = this.dd,
+                node = dd.get('node');
+
             if (tar.test(this.get(NODES)) && !tar.test(this.get('invalid'))) {
                 this._shimState = Y.DD.DDM._noShim;
                 Y.DD.DDM._noShim = true;
                 this.set('currentNode', tar);
-                dd._unprep();
+                if (node.inDoc()) {
+                    dd._unprep();
+                }
                 dd.set('node', tar);
                 if (dd.proxy) {
                     dd.set('dragNode', Y.DD.DDM._proxy);
@@ -90,7 +93,7 @@
                     dd.set('dragNode', tar);
                 }
                 dd._prep();
-                
+
                 dd.fire('drag:mouseDown', { ev: e });
             }
         },
@@ -151,7 +154,7 @@
         * @description Applies the Y.Plugin.Drop to all nodes matching the cont + nodes selector query.
         * @return {Self}
         * @chainable
-        */        
+        */
         syncTargets: function() {
             if (!Y.Plugin.Drop || this.get('destroyed')) {
                 return;
@@ -162,7 +165,7 @@
                 items = Y.one(this.get(CONT)).all(this.get(NODES));
                 groups = this.dd.get('groups');
                 config = this.get('dragConfig');
-                
+
                 if (config && 'groups' in config) {
                     groups = config.groups;
                 }
@@ -211,7 +214,7 @@
             * @attribute container
             * @description A selector query to get the container to listen for mousedown events on. All "nodes" should be a child of this container.
             * @type String
-            */    
+            */
             container: {
                 value: 'body'
             },
@@ -219,7 +222,7 @@
             * @attribute nodes
             * @description A selector query to get the children of the "container" to make draggable elements from.
             * @type String
-            */        
+            */
             nodes: {
                 value: '.dd-draggable'
             },
@@ -227,7 +230,7 @@
             * @attribute invalid
             * @description A selector query to test a node to see if it's an invalid item.
             * @type String
-            */        
+            */
             invalid: {
                 value: 'input, select, button, a, textarea'
             },
@@ -235,7 +238,7 @@
             * @attribute lastNode
             * @description Y.Node instance of the last item dragged.
             * @type Node
-            */        
+            */
             lastNode: {
                 value: _tmpNode
             },
@@ -243,7 +246,7 @@
             * @attribute currentNode
             * @description Y.Node instance of the dd node.
             * @type Node
-            */        
+            */
             currentNode: {
                 value: _tmpNode
             },
@@ -251,7 +254,7 @@
             * @attribute dragNode
             * @description Y.Node instance of the dd dragNode.
             * @type Node
-            */        
+            */
             dragNode: {
                 value: _tmpNode
             },
@@ -259,7 +262,7 @@
             * @attribute over
             * @description Is the mouse currently over the container
             * @type Boolean
-            */        
+            */
             over: {
                 value: false
             },
@@ -267,7 +270,7 @@
             * @attribute target
             * @description Should the items also be a drop target.
             * @type Boolean
-            */        
+            */
             target: {
                 value: false
             },
@@ -275,7 +278,7 @@
             * @attribute dragConfig
             * @description The default config to be used when creating the DD instance.
             * @type Object
-            */        
+            */
             dragConfig: {
                 value: null
             },
@@ -283,7 +286,7 @@
             * @attribute handles
             * @description The handles config option added to the temp DD instance.
             * @type Array
-            */        
+            */
             handles: {
                 value: null
             }
@@ -325,7 +328,7 @@
         }
     });
 
-    Y.namespace('DD');    
+    Y.namespace('DD');
     Y.DD.Delegate = Delegate;
 
 
