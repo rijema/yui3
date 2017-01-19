@@ -1213,6 +1213,27 @@ YUI.add('loader-tests', function(Y) {
 
             Assert.areSame(loader.skin.defaultSkin, 'foobar', 'Default skin was not set from object');
         },
+        test_add_root_language: function() {
+            var loader = new Y.Loader({
+                loadOptional: true,
+                ignoreRegistered: true,
+                require: [ 'datatable-sort' ]
+            });
+
+            var out = loader.resolve(true);
+            var hasRoot = false;
+
+            Y.each(out.jsMods, function(module) {
+                if(module.name == 'datatable-sort') {
+                    var packName = loader.getLangPackName('', 'datatable-sort');
+                    if(loader.getModuleInfo(packName)) {
+                        hasRoot = true;
+                    }
+                }
+            });
+
+            Assert.isTrue(hasRoot, "Root lang is not registered");
+        },
         test_load_optional: function() {
             var loader = new Y.Loader({
                 loadOptional: true,
