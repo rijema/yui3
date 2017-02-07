@@ -1223,15 +1223,15 @@ YUI.add('loader-tests', function(Y) {
             var out = loader.resolve(true);
             var hasRoot = false;
             Y.each(out.jsMods, function(module) {
-                if(module.name == 'datatable-sort') {
+                if (module.name == 'datatable-sort') {
                     var packName = loader.getLangPackName('', 'datatable-sort');
-                    if(loader.getModuleInfo(packName)) {
+                    if (loader.getModuleInfo(packName)) {
                         hasRoot = true;
                     }
                 }
             });
 
-            Assert.isTrue(hasRoot, "Root language is not registered");
+            Assert.isTrue(hasRoot, 'Root language is not registered');
         },
         test_load_optional: function() {
             var loader = new Y.Loader({
