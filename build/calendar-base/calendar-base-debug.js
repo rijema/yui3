@@ -1703,6 +1703,7 @@ Y.CalendarBase = Y.extend( CalendarBase, Y.Widget, {
         "en",
         "es",
         "es-AR",
+        "eu-ES",
         "fr",
         "hu",
         "it",
