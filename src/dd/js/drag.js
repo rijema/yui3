@@ -780,8 +780,8 @@
             }
             if (this.validClick(ev)) {
                 this._fixIEMouseDown(ev);
-                if (Drag.START_EVENT.indexOf('gesture') !== 0) {
-                    //Only do these if it's not a gesture
+                if (!ev.touches) {
+                    //Only do these if it's not a touch
                     if (this.get('haltDown')) {
                         Y.log('Halting MouseDown', 'info', 'drag');
                         ev.halt();
@@ -795,7 +795,13 @@
 
                 DDM.activeDrag = this;
 
-                this._clickTimeout = Y.later(this.get('clickTimeThresh'), this, this._timeoutCheck);
+                var clickTimeThresh = this.get('clickTimeThresh');
+
+                if (ev.touches) {
+                    clickTimeThresh = Math.max(750, clickTimeThresh);
+                }
+
+                this._clickTimeout = Y.later(clickTimeThresh, this, this._timeoutCheck);
             }
             this.fire(EV_AFTER_MOUSE_DOWN, { ev: ev });
         },
