@@ -640,6 +640,7 @@ ChartBase.prototype = {
                     }
                 }, this));
             }
+
             Y.delegate("mouseenter", Y.bind(this._markerEventDispatcher, this), cb, markerClassName);
             Y.delegate("mousedown", Y.bind(this._markerEventDispatcher, this), cb, markerClassName);
             Y.delegate("mouseup", Y.bind(this._markerEventDispatcher, this), cb, markerClassName);
