@@ -84,7 +84,7 @@ Y.CategoryAxis = Y.Base.create("categoryAxis", Y.Axis, [Y.CategoryImpl], {
             point,
             labelIndex,
             data = this.get("data"),
-            indexMap = new Map();
+            indexMap = new Map(),
             offset = edgeOffset;
         dataValues = dataValues || data;
         for(i = 0; i < count; i = i + 1)
