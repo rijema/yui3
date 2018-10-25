@@ -404,6 +404,7 @@ YUI.add('dd-drag', function (Y, NAME) {
                             key = v._yuid;
                         }
                         this._handles[key] = v;
+                        this._fixUserSelect(v);
                     }, this);
                 } else {
                     this._handles = null;
@@ -705,8 +706,9 @@ YUI.add('dd-drag', function (Y, NAME) {
             }
         },
         /**
-        * The function we use as the ondragstart handler when we start a drag
+        * The function we use as the ondragstart and ontouchmove handler when we start a drag or touch
         * in Internet Explorer. This keeps IE from blowing up on images as drag handles.
+        * This keeps mobile browsers from scrolling on drag:drag.
         * @private
         * @method _fixDragStart
         * @param {Event} e The Event
@@ -714,6 +716,32 @@ YUI.add('dd-drag', function (Y, NAME) {
         _fixDragStart: function(e) {
             if (this.validClick(e)) {
                 e.preventDefault();
+            }
+        },
+        /**
+        * The function we use to prevent user selection on drag:drag.
+        * @private
+        * @method _fixUserSelect
+        * @param {String|Node} handles Handle(s) for dragging.
+        */
+        _fixUserSelect: function(handles, undo) {
+            var nodeList = Y.all(handles);
+            if (nodeList) {
+                if (undo) {
+                    nodeList.setStyles({
+                        '-moz-user-select': 'auto',
+                        '-ms-user-select': 'auto',
+                        '-webkit-user-select': 'auto',
+                        'user-select': 'auto'
+                    });
+                } else {
+                    nodeList.setStyles({
+                        '-moz-user-select': 'none',
+                        '-ms-user-select': 'none',
+                        '-webkit-user-select': 'none',
+                        'user-select': 'none'
+                    });
+                }
             }
         },
         /**
@@ -918,6 +946,7 @@ YUI.add('dd-drag', function (Y, NAME) {
             }
             if (this._handles[key]) {
                 delete this._handles[key];
+                this._fixUserSelect(str, true);
                 this.fire(EV_REMOVE_HANDLE, { handle: str });
             }
             return this;
@@ -937,6 +966,7 @@ YUI.add('dd-drag', function (Y, NAME) {
                 key = str._yuid;
             }
             this._handles[key] = str;
+            this._fixUserSelect(str);
             this.fire(EV_ADD_HANDLE, { handle: str });
             return this;
         },
@@ -1009,7 +1039,7 @@ YUI.add('dd-drag', function (Y, NAME) {
             node.addClass(DDM.CSS_PREFIX + '-draggable');
             node.on(Drag.START_EVENT, Y.bind(this._handleMouseDownEvent, this));
             node.on('mouseup', Y.bind(this._handleMouseUp, this));
-            node.on('dragstart', Y.bind(this._fixDragStart, this));
+            node.on(['dragstart', 'touchmove'], Y.bind(this._fixDragStart, this));
         },
         /**
         * Detach event listeners and remove classname
