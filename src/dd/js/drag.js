@@ -704,25 +704,14 @@
             }
         },
         /**
-        * The function we use as the ondragstart handler when we start a drag
+        * The function we use as the ondragstart and ontouchmove handler when we start a drag or touch
         * in Internet Explorer. This keeps IE from blowing up on images as drag handles.
+        * This keeps mobile browsers from scrolling on drag:drag.
         * @private
         * @method _fixDragStart
         * @param {Event} e The Event
         */
         _fixDragStart: function(e) {
-            if (this.validClick(e)) {
-                e.preventDefault();
-            }
-        },
-        /**
-        * The function we use as the ontouchmove handler when we start a drag via touch.
-        * This keeps mobile browsers from scrolling on drag:drag.
-        * @private
-        * @method _fixTouchMove
-        * @param {Event} e The Event
-        */
-        _fixTouchMove: function(e) {
             if (this.validClick(e)) {
                 e.preventDefault();
             }
@@ -1048,8 +1037,7 @@
             node.addClass(DDM.CSS_PREFIX + '-draggable');
             node.on(Drag.START_EVENT, Y.bind(this._handleMouseDownEvent, this));
             node.on('mouseup', Y.bind(this._handleMouseUp, this));
-            node.on('dragstart', Y.bind(this._fixDragStart, this));
-            node.on('touchmove', Y.bind(this._fixTouchMove, this));
+            node.on(['dragstart', 'touchmove'], Y.bind(this._fixDragStart, this));
         },
         /**
         * Detach event listeners and remove classname
