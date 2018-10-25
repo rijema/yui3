@@ -402,6 +402,7 @@
                             key = v._yuid;
                         }
                         this._handles[key] = v;
+                        this._fixUserSelect(v);
                     }, this);
                 } else {
                     this._handles = null;
@@ -727,6 +728,32 @@
             }
         },
         /**
+        * The function we use to prevent user selection on drag:drag.
+        * @private
+        * @method _fixUserSelect
+        * @param {String|Node} handles Handle(s) for dragging.
+        */
+        _fixUserSelect: function(handles, undo) {
+            var nodeList = Y.all(handles);
+            if (nodeList) {
+                if (undo) {
+                    nodeList.setStyles({
+                        '-moz-user-select': 'auto',
+                        '-ms-user-select': 'auto',
+                        '-webkit-user-select': 'auto',
+                        'user-select': 'auto'
+                    });
+                } else {
+                    nodeList.setStyles({
+                        '-moz-user-select': 'none',
+                        '-ms-user-select': 'none',
+                        '-webkit-user-select': 'none',
+                        'user-select': 'none'
+                    });
+                }
+            }
+        },
+        /**
         * The function we use as the onselectstart handler when we start a drag in Internet Explorer
         * @private
         * @method _ieSelectFix
@@ -928,6 +955,7 @@
             }
             if (this._handles[key]) {
                 delete this._handles[key];
+                this._fixUserSelect(str, true);
                 this.fire(EV_REMOVE_HANDLE, { handle: str });
             }
             return this;
@@ -947,6 +975,7 @@
                 key = str._yuid;
             }
             this._handles[key] = str;
+            this._fixUserSelect(str);
             this.fire(EV_ADD_HANDLE, { handle: str });
             return this;
         },
