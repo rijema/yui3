@@ -715,6 +715,18 @@
             }
         },
         /**
+        * The function we use as the ontouchmove handler when we start a drag via touch.
+        * This keeps mobile browsers from scrolling on drag:drag.
+        * @private
+        * @method _fixTouchMove
+        * @param {Event} e The Event
+        */
+        _fixTouchMove: function(e) {
+            if (this.validClick(e)) {
+                e.preventDefault();
+            }
+        },
+        /**
         * The function we use as the onselectstart handler when we start a drag in Internet Explorer
         * @private
         * @method _ieSelectFix
@@ -1008,6 +1020,7 @@
             node.on(Drag.START_EVENT, Y.bind(this._handleMouseDownEvent, this));
             node.on('mouseup', Y.bind(this._handleMouseUp, this));
             node.on('dragstart', Y.bind(this._fixDragStart, this));
+            node.on('touchmove', Y.bind(this._fixTouchMove, this));
         },
         /**
         * Detach event listeners and remove classname
