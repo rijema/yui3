@@ -502,7 +502,17 @@
                 }
 
                 if (path) {
-                    var copyVal = Object.assign({}, currVal);
+                    var copyVal = [currVal].reduce(
+                        function(retVal, currVal) {
+                            Object.keys(currVal).forEach(
+                                function(item) {
+                                    retVal[item] = currVal[item];
+                                }
+                            );
+                        return retVal;
+                        },
+                        {}
+                    );
 
                     var pathNode = copyVal;
                     var leafIdx = path.length - 1;
