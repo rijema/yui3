@@ -2,7 +2,8 @@
     "calendarnavigator": {
         "lang" : [
             "en",
-            "es-ES",
+            "es",
+            "es-AR",
             "eu-ES"
         ],
         "requires": [
