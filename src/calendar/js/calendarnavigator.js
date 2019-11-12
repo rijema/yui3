@@ -69,7 +69,19 @@ CalendarNavigator.ATTRS = {
      */
     shiftByMonths : {
         value: 1
-    }
+    },
+
+    /**
+     * Strings and properties derived from the internationalization packages
+     * for the calendarnavigator.
+     *
+     * @attribute strings
+     * @type Object
+     * @protected
+     */
+    strings : {
+        valueFn: function() { return Y.Intl.get('calendarnavigator'); }
+    },
 };
 
    /**
@@ -107,18 +119,6 @@ CalendarNavigator.NEXT_MONTH_CONTROL_TEMPLATE = '<a class="yui3-u {next_month_cl
 
 
 Y.extend(CalendarNavigator, Y.Plugin.Base, {
-
-    /**
-     * Strings and properties derived from the internationalization packages
-     * for the calendarnavigator.
-     *
-     * @attribute strings
-     * @type Object
-     * @protected
-     */
-    strings : {
-        valueFn: function() { return Y.Intl.get("calendarnavigation"); }
-    },
 
     _eventAttachments : {},
     _controls: {},
@@ -283,11 +283,18 @@ Y.extend(CalendarNavigator, Y.Plugin.Base, {
      */
     _initNavigationControls : function() {
         var host = this.get(HOST),
-            headerCell = host.get(CONTENT_BOX).one("." + CAL_HD);
+            headerCell = host.get(CONTENT_BOX).one("." + CAL_HD),
+            nextMonthLabel = 'Go to next month',
+            prevMonthLabel = 'Go to previous month';
+
+        if (Y.Intl.getLang('calendarnavigator')) {
+            prevMonthLabel = this.get('strings.go_to_previous_month');
+            nextMonthLabel = this.get('strings.go_to_next_month');
+        }
 
         CalendarNavigator.CALENDARNAV_STRINGS.control_tabindex = host.get("tabIndex");
-        CalendarNavigator.CALENDARNAV_STRINGS.prev_month_arialabel = this.get('strings.go_to_previous_month');;
-        CalendarNavigator.CALENDARNAV_STRINGS.next_month_arialabel = this.get('strings.go_to_next_month');
+        CalendarNavigator.CALENDARNAV_STRINGS.prev_month_arialabel = prevMonthLabel;
+        CalendarNavigator.CALENDARNAV_STRINGS.next_month_arialabel = nextMonthLabel;
 
         this._controls.prevMonth = this._renderPrevControls();
         this._controls.nextMonth = this._renderNextControls();
