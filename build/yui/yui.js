@@ -489,7 +489,13 @@ proto = {
             if (doc.body) {
                 doc.body.appendChild(YUI.Env.cssStampEl);
             } else {
-                docEl.insertBefore(YUI.Env.cssStampEl, docEl.firstChild);
+                YUI.add(
+                    doc,
+                    'DOMContentLoaded',
+                    function(event) {
+                        docEl.insertBefore(YUI.Env.cssStampEl, docEl.firstChild);
+                    }
+                );
             }
         } else if (doc && doc.getElementById(CSS_STAMP_EL) && !YUI.Env.cssStampEl) {
             YUI.Env.cssStampEl = doc.getElementById(CSS_STAMP_EL);
@@ -541,7 +547,7 @@ proto = {
             mods = YUI.Env.mods,
             extendedCore = Y.config.extendedCore || [],
             extras = Y.config.core || [].concat(YUI.Env.core).concat(extendedCore); //Clone it..
-   
+
         for (i = 0; i < extras.length; i++) {
             if (mods[extras[i]]) {
                 core.push(extras[i]);

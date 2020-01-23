@@ -489,7 +489,13 @@ proto = {
             if (doc.body) {
                 doc.body.appendChild(YUI.Env.cssStampEl);
             } else {
-                docEl.insertBefore(YUI.Env.cssStampEl, docEl.firstChild);
+                YUI.add(
+                    doc,
+                    'DOMContentLoaded',
+                    function(event) {
+                        docEl.insertBefore(YUI.Env.cssStampEl, docEl.firstChild);
+                    }
+                );
             }
         } else if (doc && doc.getElementById(CSS_STAMP_EL) && !YUI.Env.cssStampEl) {
             YUI.Env.cssStampEl = doc.getElementById(CSS_STAMP_EL);
@@ -541,7 +547,7 @@ proto = {
             mods = YUI.Env.mods,
             extendedCore = Y.config.extendedCore || [],
             extras = Y.config.core || [].concat(YUI.Env.core).concat(extendedCore); //Clone it..
-   
+
         for (i = 0; i < extras.length; i++) {
             if (mods[extras[i]]) {
                 core.push(extras[i]);
@@ -8557,6 +8563,12 @@ Y.mix(YUI.Env[Y.version].modules, {
         "skinnable": true
     },
     "calendarnavigator": {
+        "lang": [
+            "en",
+            "es",
+            "es-AR",
+            "eu-ES"
+        ],
         "requires": [
             "plugin",
             "classnamemanager",
@@ -11022,7 +11034,7 @@ Y.mix(YUI.Env[Y.version].modules, {
         ]
     }
 });
-YUI.Env[Y.version].md5 = 'f20377d5ab6d37137f73ea79d6eb476d';
+YUI.Env[Y.version].md5 = '95eb05a1b097773b5af03e0680e7dda4';
 
 
 }, '@VERSION@', {"requires": ["loader-base"]});
