@@ -202,6 +202,9 @@ available.
             if (hasWin) {
                 remove(doc, 'DOMContentLoaded', handleReady);
             }
+            if (doc && doc.body && YUI.Env.cssStampEl && (!doc.body.contains(YUI.Env.cssStampEl))) {
+                doc.body.appendChild(YUI.Env.cssStampEl);
+            }
         },
         handleLoad = function() {
             YUI.Env.windowLoaded = true;
@@ -489,13 +492,7 @@ proto = {
             if (doc.body) {
                 doc.body.appendChild(YUI.Env.cssStampEl);
             } else {
-                YUI.add(
-                    doc,
-                    'DOMContentLoaded',
-                    function(event) {
-                        docEl.insertBefore(YUI.Env.cssStampEl, docEl.firstChild);
-                    }
-                );
+                docEl.insertBefore(YUI.Env.cssStampEl, docEl.firstChild);
             }
         } else if (doc && doc.getElementById(CSS_STAMP_EL) && !YUI.Env.cssStampEl) {
             YUI.Env.cssStampEl = doc.getElementById(CSS_STAMP_EL);
