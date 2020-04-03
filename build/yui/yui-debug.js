@@ -5339,6 +5339,7 @@ Transaction.prototype = {
                 nodeType = 'style';
             } else {
                 nodeType = 'link';
+                delete req.attributes['charset'];
             }
 
             node = req.node = this._createNode(nodeType, req.attributes,
